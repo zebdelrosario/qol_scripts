@@ -12,7 +12,7 @@ def main():
     with open(desktop_path, 'r') as in_file:
         if in_file.read() == "":
             set_desktop_path(desktop_path)
-    
+
 
 def set_desktop_path(desktop_path):
     temp_file = tempfile.NamedTemporaryFile(mode="r+")
