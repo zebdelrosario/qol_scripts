@@ -16,6 +16,8 @@ def main():
         in_file.seek(0)  # Reset position to start
         desktop_path = str(in_file.read())
         desktop_items = get_desktop_items(desktop_path)
+        for desktop_item in desktop_items:
+    ##TODO: Iterate over items and determine their extensions, sort them into relevant directories
 
 
 def get_desktop_items(desktop_path):
