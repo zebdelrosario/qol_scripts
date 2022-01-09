@@ -42,9 +42,4 @@ def set_desktop_path(source_path, destination_path):
     temp_file.close()
 
 
-def navigate_to_desktop(desktop_path):
-    """Get the current working directory."""
-    os.chdir(desktop_path)
-
-
 main()
