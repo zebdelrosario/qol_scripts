@@ -15,15 +15,15 @@ def main():
             set_desktop_path(in_file, new_desktop_path)
         in_file.seek(0)  # Reset position to start
         desktop_path = str(in_file.read())
-        get_desktop_items(desktop_path)
+        desktop_items = get_desktop_items(desktop_path)
 
 
 def get_desktop_items(desktop_path):
     """Return a list of objects from the desktop path."""
+    os.chdir(desktop_path)
     cwd = os.getcwd()
-    os.chdir(desktop_path)  # Set cwd to desktop
-    desktop_items = [i for i in desktop_path]
-    print(desktop_items)
+    desktop_items = os.listdir(cwd)
+    return desktop_items
 
 
 def set_desktop_path(source_path, destination_path):
