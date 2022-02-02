@@ -9,7 +9,7 @@ from pathlib import Path
 
 def main():
     """Run the desktop cleaning script."""
-    file_extension_for_file_type = {"image": ["jpg", "jpeg", "png", "bmp", "gif"],
+    file_extension_for_file_type = {"image": ["jpg", "jpeg", "png", "bmp", "gif", "psd"],
                                     "video": ["mp4", "avi", "wmv", "mov", "flv", "dv"],
                                     "audio": ["mp3", "aiff", "wav", "wma", "aac", "ra"],
                                     "pdf": ["pdf"],
