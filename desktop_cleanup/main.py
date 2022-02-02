@@ -14,7 +14,8 @@ def main():
                                     "audio": ["mp3", "aiff", "wav", "wma", "aac", "ra"],
                                     "pdf": ["pdf"],
                                     "microsoft office": ["doc", "docx", "xlsx", "xlsm", "xlsb"],
-                                    "Shortcuts": ["url"]
+                                    "Shortcuts": ["url", "lnk"],
+                                    "Executables": ["exe"]
                                     }
     in_file = "../user_desktop.txt"
     with open(in_file, 'r') as in_file:
@@ -29,28 +30,35 @@ def main():
             desktop_item_path = desktop_path + "\\" + desktop_item
             file_extension = os.path.splitext(desktop_item)
             key = find_key(file_extension_for_file_type, str(file_extension[1]).lower())
-            # if key is not None:
-                # print(f'{desktop_item:<25} will be moved to {key.upper()}.')
-            # else:
-                # print(f'{desktop_item:<25} = OTHER')
+            if key is not None:
+                shutil.move(desktop_item_path, desktop_path + "\\" + key)
+                print(f'{desktop_item_path:<25} has been moved to {desktop_path}\\{key}.')
+            elif os.path.isdir(desktop_item_path):
+                print(f"{desktop_item_path} is a folder, WILL NOT MOVE.")
+            else:
+                shutil.move(desktop_item_path, desktop_path + "\\" + "other")
+                print(f'{desktop_item:<25} has been moved to {desktop_path}\\other.')
 
 
-def create_directories(input_dict, destination_path):
+def create_directories(input_dict, current_directory):
     """Create directories for every key of a dictionary."""
     new_directories = [k for k in input_dict.keys()]
     for item in new_directories:
-        path = Path(destination_path)
+        path = Path(current_directory + "\\" + item)
         if not path.exists():
             os.mkdir(str(item))
         else:
             print(f"Folder {item.upper():<16} already exists; ignoring...")
+    other = current_directory + '\\' + 'other'
+    path = Path(other)
+    if not path.exists():
+        os.mkdir("other")
+    return new_directories
 
 
 def find_key(input_dict, input_value):
     """Find key of a given dictionary using a value."""
     for key, value in input_dict.items():
-        if input_value[1:] == value:
-            return key
         if isinstance(value, list) and input_value[1:] in value:
             return key
 
