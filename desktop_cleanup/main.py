@@ -11,7 +11,8 @@ def main():
                        "video": ["mp4", "avi", "wmv", "mov", "flv", "dv"],
                        "audio": ["mp3", "aiff", "wav", "wma", "aac", "ra"],
                        "pdf": ["pdf"],
-                       "microsoft office": ["doc", "docx", "xlsx", "xlsm", "xlsb"]
+                       "microsoft office": ["doc", "docx", "xlsx", "xlsm", "xlsb"],
+                       "Shortcuts": ["url"]
                        }
     in_file = "../user_desktop.txt"
     with open(in_file, 'r') as in_file:
@@ -23,11 +24,11 @@ def main():
         desktop_items = get_desktop_items(desktop_path)
         for desktop_item in desktop_items:
             file_extension = os.path.splitext(desktop_item)
-            key = find_key(file_extension_for_file_type, str(file_extension[1]))
+            key = find_key(file_extension_for_file_type, str(file_extension[1]).lower())
             if key is not None:
-                print(f'{desktop_item} = {key.upper()}')
+                print(f'{desktop_item:<25} will be moved to {key.upper()}.')
             else:
-                print(f'{desktop_item} = OTHER')
+                print(f'{desktop_item:<25} = OTHER')
 
 
 def find_key(input_dict, input_value):
