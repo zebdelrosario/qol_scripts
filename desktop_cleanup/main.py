@@ -3,17 +3,19 @@ Desktop Cleanup script - A QOL Script
 """
 import tempfile
 import os
+import shutil
+from pathlib import Path
 
 
 def main():
     """Run the desktop cleaning script."""
     file_extension_for_file_type = {"image": ["jpg", "jpeg", "png", "bmp", "gif"],
-                       "video": ["mp4", "avi", "wmv", "mov", "flv", "dv"],
-                       "audio": ["mp3", "aiff", "wav", "wma", "aac", "ra"],
-                       "pdf": ["pdf"],
-                       "microsoft office": ["doc", "docx", "xlsx", "xlsm", "xlsb"],
-                       "Shortcuts": ["url"]
-                       }
+                                    "video": ["mp4", "avi", "wmv", "mov", "flv", "dv"],
+                                    "audio": ["mp3", "aiff", "wav", "wma", "aac", "ra"],
+                                    "pdf": ["pdf"],
+                                    "microsoft office": ["doc", "docx", "xlsx", "xlsm", "xlsb"],
+                                    "Shortcuts": ["url"]
+                                    }
     in_file = "../user_desktop.txt"
     with open(in_file, 'r') as in_file:
         if in_file.read() == "":
@@ -22,13 +24,26 @@ def main():
         in_file.seek(0)  # Reset position to start
         desktop_path = str(in_file.read())
         desktop_items = get_desktop_items(desktop_path)
+        create_directories(file_extension_for_file_type, desktop_path)
         for desktop_item in desktop_items:
+            desktop_item_path = desktop_path + "\\" + desktop_item
             file_extension = os.path.splitext(desktop_item)
             key = find_key(file_extension_for_file_type, str(file_extension[1]).lower())
-            if key is not None:
-                print(f'{desktop_item:<25} will be moved to {key.upper()}.')
-            else:
-                print(f'{desktop_item:<25} = OTHER')
+            # if key is not None:
+                # print(f'{desktop_item:<25} will be moved to {key.upper()}.')
+            # else:
+                # print(f'{desktop_item:<25} = OTHER')
+
+
+def create_directories(input_dict, destination_path):
+    """Create directories for every key of a dictionary."""
+    new_directories = [k for k in input_dict.keys()]
+    for item in new_directories:
+        path = Path(destination_path)
+        if not path.exists():
+            os.mkdir(str(item))
+        else:
+            print(f"Folder {item.upper():<16} already exists; ignoring...")
 
 
 def find_key(input_dict, input_value):
